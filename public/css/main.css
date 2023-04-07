@@ -1,0 +1,17 @@
+/*!
+ * Copyright Harpreet Singh, 2023
+ */
+
+.pePointer {
+  cursor: pointer;
+}
+
+.textMono {
+  font-family: monospace;
+}
+
+#timeSlots {
+  max-height: 50rem;
+  overflow: auto;
+  scrollbar-width: thin;
+}

@@ -1,0 +1,136 @@
+<html lang="en">
+<!--HEADER-->
+<%- include('layouts/header'); -%>
+<body class="d-flex flex-column vh-100">
+<!--NAVBAR-->
+<%- include('layouts/navbar') -%>
+<!--MAIN CONTENT-->
+<header class="bg-dark text-light text-center flex-grow-1">
+  <div class="container d-flex flex-column justify-content-center align-items-center py-5">
+    <form class="text-dark w-100" method="post" action="/g2-test/book">
+      <div class="row text-start mb-3">
+        <div class="col-12">
+          <h3 class="text-light">G2 Drive Test Booking</h3>
+        </div>
+      </div>
+      <% if (typeof formErrors === 'object' && formErrors.length > 0) { %>
+        <div class="row text-start mb-3">
+          <div class="col-12">
+            <div id="feedback-wrapper" class="w-100 text-start py-2 px-3 bg-light rounded">
+              <% formErrors.forEach(e=> { %>
+                <span class="mb-1 text-danger"><i class="fa-solid fa-exclamation-triangle me-2"></i><%= e; %></span><br>
+              <% }); %>
+            </div>
+          </div>
+        </div>
+      <% } %>
+      <div class="row text-start">
+        <div class="col-12">
+          <h5 class="text-secondary">Personal Information</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="e.g. Mark"
+                   value="<%= accountInfo.firstName %>" <%= accountInfo.firstName ? 'readonly' : '' %>>
+            <label for="firstName">First Name</label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="e.g. Smith"
+                   value="<%= accountInfo.lastName %>" <%= accountInfo.lastName ? 'readonly' : '' %>>
+            <label for="lastName">Last Name</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="licenseNo" name="licenseNo"
+                   placeholder="Must be 8 alpha-numeric chars" pattern="[A-Za-z0-9]+"
+                   value="<%= accountInfo.licenseNo ? 'Supplied' : '' %>" <%= accountInfo.licenseNo ? 'readonly' : '' %>>
+            <label for="licenseNo">License No.</label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="email" name="email"
+                   placeholder="e.g. name@email.com" value="<%= accountInfo.email %>" readonly>
+            <label for="email">Email</label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-12 col-md-6">
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="dob" name="dob" placeholder="dd/mm/yyyy"
+                   value="<%= accountInfo.age >= 17 ? new Date(accountInfo.dob).toISOString().slice(0, 10) : '' %>" <%= accountInfo.age >= 17 ? 'readonly' : '' %>>
+            <label for="dob">Date of Birth</label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-floating mb-3">
+            <select class="form-select pePointer" id="bookingDate" name="bookingDate">
+              <% if (typeof timeSlots === 'object'){ %>
+                <% for (const t of timeSlots){ %>
+                  <% const timeSlot = new Date(t.slot) %>
+                  <option value="<%= t.slot %>"><%= timeSlot.toLocaleDateString() %>
+                    - <%= timeSlot.toLocaleTimeString() %></option>
+                <% } %>
+              <% } %>
+            </select>
+            <label for="bookingDate">Booking Date</label>
+          </div>
+        </div>
+      </div>
+      <div class="row text-start">
+        <div class="col-12">
+          <h5 class="text-secondary">Car Information</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="make" name="make" placeholder="e.g. Ford"
+                   value="<%= accountInfo.car.make %>">
+            <label for="make">Make</label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="model" name="model" placeholder="e.g. Falcon"
+                   value="<%= accountInfo.car.model %>">
+            <label for="model">Model</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="year" name="year" placeholder="e.g. 2011"
+                   value="<%= accountInfo.car.year > 1990 ? accountInfo.car.year : '' %>">
+            <label for="year">Year</label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="plateNo" name="plateNo" placeholder="e.g. AABB 855"
+                   value="<%= accountInfo.car.plateNo %>">
+            <label for="plateNo">Plate No.</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-start">
+          <button type="submit" class="btn btn-warning px-5">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</header>
+<!--FOOTER-->
+<%- include('layouts/footer') -%>
+</body>
+</html>

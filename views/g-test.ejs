@@ -1,0 +1,116 @@
+<html lang="en">
+<!--HEADER-->
+<%- include('layouts/header'); -%>
+<body class="d-flex flex-column vh-100">
+<!--NAVBAR-->
+<%- include('layouts/navbar') -%>
+<!--MAIN CONTENT-->
+<header class="bg-dark text-light text-center flex-grow-1">
+  <div
+      class="container d-flex flex-column justify-content-center align-items-start <%= typeof accountInfo === 'undefined' ? 'h-75' : 'py-5'; %>">
+    <div class="row text-start mb-3 text-light">
+      <div class="col-12">
+        <h3>G Drive Test Bookings</h3>
+        <p class="text-secondary">Below are all the bookings found under the email - <%= accountInfo.email %></p>
+      </div>
+    </div>
+    <% if (typeof accountInfo === 'object' && typeof accountInfo?.email) { %>
+      <div class="row text-start mb-3 text-light">
+        <div class="col-12">
+          <h3 class="mb-3">Results</h3>
+          <div class="w-100 mx-auto table-responsive">
+            <table class="table table-striped table-dark w-100">
+              <thead>
+              <tr>
+                <th>License No</th>
+                <th>Email</th>
+                <th>Date of Birth</th>
+                <th>Age</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td><%= accountInfo.licenseNo ? 'Supplied' : 'Not Provided' %></td>
+                <td><%= accountInfo.email; %></td>
+                <td><%= accountInfo.dob.toLocaleDateString(); %></td>
+                <td><%= accountInfo.age.toFixed(); %></td>
+              </tr>
+              <% if (typeof bookingInfo === 'object') { %>
+                <% for (const k in bookingInfo) { %>
+                  <tr>
+                    <td colspan="4">
+                      <form action="/g-test/update" method="post">
+                        <table class="table mb-0 table-dark table-striped">
+                          <thead>
+                          <tr>
+                            <th>Car Make</th>
+                            <th>Model</th>
+                            <th>Year</th>
+                            <th>Registration</th>
+                            <th>Changes</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                            <td>
+                              <label>
+                                <input type="date" id="bookingDate" name="bookingDate" class="form-control"
+                                       value="<%= new Date(bookingInfo[k].bookingDate).toISOString().slice(0, 10); %>"
+                                       required>
+                              </label>
+                            </td>
+                            <td>
+                              <label>
+                                <input type="text" id="make" name="make" class="form-control"
+                                       value="<%= bookingInfo[k].car.make; %>" required>
+                              </label>
+                            </td>
+                            <td>
+                              <label>
+                                <input type="text" id="model" name="model" class="form-control"
+                                       value="<%= bookingInfo[k].car.model; %>" required>
+                              </label>
+                            </td>
+                            <td>
+                              <label>
+                                <input type="text" id="year" name="year" class="form-control"
+                                       value="<%= bookingInfo[k].car.year; %>" required>
+                              </label>
+                            </td>
+                            <td>
+                              <label>
+                                <input type="text" id="plateNo" name="plateNo" class="form-control"
+                                       value="<%= bookingInfo[k].car.plateNo; %>" required>
+                              </label>
+                            </td>
+                            <td>
+                              <button type="submit" name="id" value="<%= bookingInfo[k]._id %>"
+                                      class="btn btn-warning">Update
+                              </button>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </form>
+                    </td>
+                  </tr>
+                <% } %>
+              <% }else if (typeof accountInfo === 'object' && !accountInfo?.email){ %>
+                <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 24rem">
+                  <h3 class="mb-3">No Bookings Found</h3>
+                  <p class="text-secondary">To book a drive test, click the button below.</p>
+                  <a href="/g2-test" class="btn btn-warning">G2_Test</a>
+                </div>
+              <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</header>
+<!--FOOTER-->
+<%- include('layouts/footer') -%>
+</body>
+</html>
