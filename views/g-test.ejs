@@ -32,8 +32,8 @@
               <tr>
                 <td><%= accountInfo.licenseNo ? 'Supplied' : 'Not Provided' %></td>
                 <td><%= accountInfo.email; %></td>
-                <td><%= accountInfo.dob.toLocaleDateString(); %></td>
-                <td><%= accountInfo.age.toFixed(); %></td>
+                <td><%= accountInfo.dob?.toLocaleDateString() ?? 'Not Provided'; %></td>
+                <td><%= !isNaN(accountInfo.age) ? accountInfo.age?.toFixed() : 'Not Provided' %></td>
               </tr>
               <% if (typeof bookingInfo === 'object') { %>
                 <% for (const k in bookingInfo) { %>
