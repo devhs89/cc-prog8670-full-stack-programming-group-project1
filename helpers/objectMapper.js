@@ -2,6 +2,7 @@ const accountDto = require("../dtos/accountDto");
 const yearsCalculator = require("./yearsCalculator");
 const loginDto = require("../dtos/loginDto");
 const bookingDetailsDto = require("../dtos/bookingDetailsDto");
+const carDto = require("../dtos/carDto");
 
 // Account DTO mapper
 const mapAccountDto = dt => {
@@ -13,10 +14,6 @@ const mapAccountDto = dt => {
   accountDto.dob = dt.dob;
   accountDto.age = age;
   accountDto.licenseNo = dt.licenseNo;
-  accountDto.car.make = dt.car.make;
-  accountDto.car.model = dt.car.model;
-  accountDto.car.year = dt.car.year;
-  accountDto.car.plateNo = dt.car.plateNo;
 };
 
 // Login DTO mapper
@@ -26,34 +23,35 @@ const mapLoginDto = dt => {
 };
 
 // Update Account DTO mapper
-const mapUpdatedAccountDto = (oldDoc, ud) => {
+const mapUpdatedAccountDto = (oldDoc, newDoc) => {
   const changedAccountFields = {};
-  const changedCarFields = {};
-  if (!oldDoc.firstName && ud.firstName) changedAccountFields["firstName"] = accountDto.firstName = ud.firstName;
-  if (!oldDoc.lastName && ud.lastName) changedAccountFields["lastName"] = accountDto.lastName = ud.lastName;
-  if ((!oldDoc.dob || yearsCalculator(oldDoc.dob) < 17) && (ud.dob && yearsCalculator(ud.dob) > 17)) {
-    changedAccountFields["dob"] = accountDto.dob = ud.dob;
-    changedAccountFields["age"] = accountDto.age = yearsCalculator(ud.dob);
+  if (!oldDoc.firstName && newDoc.firstName) changedAccountFields["firstName"] = accountDto.firstName = newDoc.firstName;
+  if (!oldDoc.lastName && newDoc.lastName) changedAccountFields["lastName"] = accountDto.lastName = newDoc.lastName;
+  if ((!oldDoc.dob || yearsCalculator(oldDoc.dob) < 17) && (newDoc.dob && yearsCalculator(newDoc.dob) > 17)) {
+    changedAccountFields["dob"] = accountDto.dob = newDoc.dob;
+    changedAccountFields["age"] = accountDto.age = yearsCalculator(newDoc.dob);
   }
-  if (oldDoc.licenseNo !== ud.licenseNo) changedAccountFields["licenseNo"] = accountDto.licenseNo = ud.licenseNo;
-  if (ud.make !== oldDoc.car.make || ud.model !== oldDoc.car.model || +ud.year !== oldDoc.car.year || ud.plateNo !== oldDoc.car.plateNo) {
-    changedCarFields["make"] = accountDto.car.make = ud.make;
-    changedCarFields["model"] = accountDto.car.model = ud.model;
-    changedCarFields["year"] = accountDto.car.year = ud.year;
-    changedCarFields["plateNo"] = accountDto.car.plateNo = ud.plateNo;
-    changedAccountFields["car"] = changedCarFields;
-  }
+  if (oldDoc.licenseNo !== newDoc.licenseNo) changedAccountFields["licenseNo"] = accountDto.licenseNo = newDoc.licenseNo;
   return changedAccountFields;
 };
 
-// Booking Details DTO mapper
-const mapBookingDetailsDto = ud => {
-  bookingDetailsDto.email = ud.email;
-  bookingDetailsDto.bookingDate = ud.bookingDate;
-  bookingDetailsDto.car.make = ud.make;
-  bookingDetailsDto.car.model = ud.model;
-  bookingDetailsDto.car.year = ud.year;
-  bookingDetailsDto.car.plateNo = ud.plateNo;
+// Update Car DTO mapper
+const mapUpdatedCarDto = (oldDoc, newDoc) => {
+  const changedCarFields = {};
+  if (newDoc.make !== oldDoc.car.make || newDoc.model !== oldDoc.car.model || +newDoc.year !== oldDoc.car.year || newDoc.plateNo !== oldDoc.car.plateNo) {
+    changedCarFields["make"] = carDto.make = newDoc.make;
+    changedCarFields["model"] = carDto.model = newDoc.model;
+    changedCarFields["year"] = carDto.year = newDoc.year;
+    changedCarFields["plateNo"] = carDto.plateNo = newDoc.plateNo;
+  }
+  return changedCarFields;
 };
 
-module.exports = {mapAccountDto, mapLoginDto, mapUpdatedAccountDto, mapBookingDetailsDto};
+// Booking Details DTO mapper
+const mapBookingDetailsDto = dt => {
+  bookingDetailsDto.email = dt.email;
+  bookingDetailsDto.bookingDate = dt.bookingDate;
+  bookingDetailsDto.carPlateNo = dt.carPlateNo;
+};
+
+module.exports = {mapAccountDto, mapLoginDto, mapUpdatedAccountDto, mapUpdatedCarDto, mapBookingDetailsDto};
