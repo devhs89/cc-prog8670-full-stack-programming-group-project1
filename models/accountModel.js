@@ -23,10 +23,7 @@ const accountSchema = new Schema({
   lastName: {type: String},
   licenseNo: {type: String, unique: true, sparse: true},
   dob: {type: Date},
-  age: {type: Number},
-  car: {
-    make: {type: String}, model: {type: String}, year: {type: Number}, plateNo: {type: String}
-  }
+  age: {type: Number}
 });
 
 // Add data encryption to Password & License Number before save operations
