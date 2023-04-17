@@ -15,4 +15,11 @@ const isAdmin = (req, res, next) => {
   }).clone();
 };
 
-module.exports = {userExists, isAdmin};
+const isExaminer = (req, res, next) => {
+  accountModel.findOne({email: req.session.email}, 'email userType', (amErr, amDoc) => {
+    if (amErr || !amDoc || amDoc.userType !== 'examiner') res.redirect('/404');
+    next();
+  }).clone();
+};
+
+module.exports = {userExists, isAdmin, isExaminer};

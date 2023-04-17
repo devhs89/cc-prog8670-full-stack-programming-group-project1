@@ -20,6 +20,11 @@
               <a class="nav-link" href="/g-test">G_Test</a>
             </li>
           <% } %>
+          <% if (userType === 'examiner') { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/examiner">Examiner</a>
+            </li>
+          <% } %>
           <% if (userType === 'admin') { %>
             <li class="nav-item">
               <a class="nav-link" href="/appointment">Appointment</a>

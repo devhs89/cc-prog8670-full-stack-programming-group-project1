@@ -1,6 +1,7 @@
 const accountsController = require("./controllers/accountsController");
 const bookingsController = require("./controllers/bookingsController");
 const adminController = require("./controllers/adminController");
+const examinerController = require("./controllers/examinerController");
 const loginDto = require("./dtos/loginDto");
 const accountDto = require("./dtos/accountDto");
 const authenticator = require("./helpers/authenticator");
@@ -9,6 +10,8 @@ const appointmentModel = require("./models/appointmentModel");
 // Controller Routes
 const controllerRoutes = app => {
   app.post('/appointment/save', authenticator.isAdmin, adminController.saveAll);
+  app.post('/examiner/show', authenticator.isExaminer, examinerController.show);
+  app.post('/examiner/update', authenticator.isExaminer, examinerController.update);
   app.post('/g2-test/book', authenticator.userExists, bookingsController.create);
   app.post('/g-test', authenticator.userExists, bookingsController.show);
   app.post('/g-test/update', authenticator.userExists, bookingsController.update);
@@ -30,6 +33,12 @@ const viewRoutes = app => {
   app.get('/register', (req, res) => {
     res.render('register', {
       isLogged: loginDto.email, userType: loginDto.userType, docTitle: 'Register - DriveTest'
+    });
+  });
+
+  app.get('/examiner', authenticator.isExaminer, (req, res) => {
+    res.render('examiner', {
+      isLogged: loginDto.email, userType: loginDto.userType, accountInfo: accountDto, docTitle: 'Examiner - DriveTest'
     });
   });
 

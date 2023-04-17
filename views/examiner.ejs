@@ -1,0 +1,119 @@
+<html lang="en">
+<!--HEADER-->
+<%- include('layouts/header'); -%>
+<body class="d-flex flex-column vh-100">
+<!--NAVBAR-->
+<%- include('layouts/navbar') -%>
+<!--MAIN CONTENT-->
+<header class="bg-dark text-light text-center flex-grow-1">
+  <div class="container d-flex flex-column justify-content-center align-items-center py-5">
+    <div class="row text-start mb-3">
+      <div class="col-12">
+        <h3 class="text-light">Appointments</h3>
+        <p class="text-secondary">Choose all available appointment time slots below</p>
+      </div>
+    </div>
+    <% if (typeof formErrors === 'object' && formErrors.length > 0) { %>
+      <div class="row text-start mb-3">
+        <div class="col-12">
+          <div id="feedback-wrapper" class="w-100 text-start py-2 px-3 bg-light rounded">
+            <% formErrors.forEach(e=> { %>
+              <span class="mb-1 text-danger"><i
+                    class="fa-solid fa-exclamation-triangle me-2"></i><%= e; %></span><br>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+    <% } %>
+    <form class="text-dark w-100" method="post" action="/examiner/show" id="examinerForm">
+      <div class="row mb-3">
+        <div class="col-12 col-md-6 mb-3">
+          <div class="input-group">
+            <label for="testType" class="input-group-text">Test Type</label>
+            <select id="testType" name="testType" class="form-select form-select-lg">
+              <option value="all">All Tests</option>
+              <option value="g2">G2 Test</option>
+              <option value="g">G Test</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 text-light text-start mb-3">
+          <button type="submit" class="btn btn-lg btn-warning">Show</button>
+        </div>
+      </div>
+    </form>
+    <form class="text-dark w-100" method="post" action="/examiner/update" id="examinerUpdateForm">
+      <div class="row">
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table table-stripped table-light mx-auto">
+              <thead>
+              <tr>
+                <td>Email</td>
+                <td>Appointment</td>
+                <td>Passed</td>
+                <td>Car</td>
+                <td>Comments</td>
+                <td>Update</td>
+              </tr>
+              </thead>
+              <tbody id="appointmentDetails">
+              <% if (typeof bookings === 'object' && bookings.length > 0){ %>
+                <% let dex = null %>
+                <% bookings.forEach((bo, i)=> { %>
+                  <% dex = i %>
+                  <tr>
+                    <td><%= bo.email %></td>
+                    <td><%= new Date(bo.bookingDate).toLocaleDateString() %> <%= new Date(bo.bookingDate).toLocaleTimeString() %></td>
+                    <td>
+                      <div class="row">
+                        <div class="col-auto">
+                          <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" name="passCheck<%= dex.toString() || '' %>"
+                                   id="passCheck" <%= bo.passed ? 'checked' : '' %> />
+                            <label class="form-check-label" for="passCheck"><%= bo.passed ? 'Yes' : 'No' %></label>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Make: <%= bo.car.make %><br>Model: <%= bo.car.model %><br>Year: <%= bo.car.year %>
+                      <br>Plate: <%= bo.car.plateNo %></td>
+                    <td>
+                      <div class="row">
+                        <div class="col-12">
+                          <% bo.comments.forEach(c=>{ %>
+                            <ul class="m-0 p-0">
+                              <li><%= c %></li>
+                            </ul>
+                          <% }) %>
+                        </div>
+                        <div class="col-12">
+                          <div class="d-flex justify-content-start align-items-start">
+                            <div class="form-floating flex-grow-1">
+                              <input type="text" class="form-control" id="commentInput"
+                                     name="commentInput<%= dex.toString() || '' %>"
+                                     placeholder="Add Comment">
+                              <label for="commentInput">Add Comment</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="btn btn-dark" name="updateBtn" value="<%= bo.id %>">Update</button>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</header>
+<!--FOOTER-->
+<%- include('layouts/footer') -%>
+</body>
+</html>

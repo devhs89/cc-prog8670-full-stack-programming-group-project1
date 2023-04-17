@@ -49,11 +49,15 @@ const mapUpdatedAccountDto = (oldDoc, ud) => {
 // Booking Details DTO mapper
 const mapBookingDetailsDto = ud => {
   bookingDetailsDto.email = ud.email;
+  bookingDetailsDto.testType = ud.testType;
+  bookingDetailsDto.comments = ud.comments;
+  bookingDetailsDto.outcome = ud.outcome;
   bookingDetailsDto.bookingDate = ud.bookingDate;
   bookingDetailsDto.car.make = ud.make;
   bookingDetailsDto.car.model = ud.model;
   bookingDetailsDto.car.year = ud.year;
   bookingDetailsDto.car.plateNo = ud.plateNo;
+  return bookingDetailsDto;
 };
 
 module.exports = {mapAccountDto, mapLoginDto, mapUpdatedAccountDto, mapBookingDetailsDto};
