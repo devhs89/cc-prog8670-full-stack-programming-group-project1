@@ -1,7 +1,7 @@
 const accountDto = require("../dtos/accountDto");
 const yearsCalculator = require("./yearsCalculator");
 const loginDto = require("../dtos/loginDto");
-const bookingDetailsDto = require("../dtos/bookingDetailsDto");
+const {bookingDetailsDto} = require("../dtos/bookingDetailsDto");
 
 // Account DTO mapper
 const mapAccountDto = dt => {

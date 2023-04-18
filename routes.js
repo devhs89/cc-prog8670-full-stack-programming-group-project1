@@ -10,6 +10,7 @@ const appointmentModel = require("./models/appointmentModel");
 // Controller Routes
 const controllerRoutes = app => {
   app.post('/appointment/save', authenticator.isAdmin, adminController.saveAll);
+  app.post('/licenses/passed', authenticator.isAdmin, adminController.passed);
   app.post('/examiner/show', authenticator.isExaminer, examinerController.show);
   app.post('/examiner/update', authenticator.isExaminer, examinerController.update);
   app.post('/g2-test/book', authenticator.userExists, bookingsController.create);
@@ -38,7 +39,11 @@ const viewRoutes = app => {
 
   app.get('/examiner', authenticator.isExaminer, (req, res) => {
     res.render('examiner', {
-      isLogged: loginDto.email, userType: loginDto.userType, accountInfo: accountDto, docTitle: 'Examiner - DriveTest'
+      currentView: '',
+      isLogged: loginDto.email,
+      userType: loginDto.userType,
+      accountInfo: accountDto,
+      docTitle: 'Examiner - DriveTest'
     });
   });
 
@@ -48,6 +53,12 @@ const viewRoutes = app => {
       userType: loginDto.userType,
       accountInfo: accountDto,
       docTitle: 'Appointments - DriveTest'
+    });
+  });
+
+  app.get('/licenses', authenticator.isAdmin, (req, res) => {
+    res.render('licenses', {
+      isLogged: loginDto.email, userType: loginDto.userType, accountInfo: accountDto, docTitle: 'Licenses - DriveTest'
     });
   });
 

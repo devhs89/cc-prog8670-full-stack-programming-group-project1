@@ -63,14 +63,23 @@
         </div>
       </div>
       <div class="row mb-3">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-4">
           <div class="form-floating mb-3">
             <input type="date" class="form-control" id="dob" name="dob" placeholder="dd/mm/yyyy"
                    value="<%= accountInfo.age >= 17 ? new Date(accountInfo.dob).toISOString().slice(0, 10) : '' %>" <%= accountInfo.age >= 17 ? 'readonly' : '' %>>
             <label for="dob">Date of Birth</label>
           </div>
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-4">
+          <div class="form-floating mb-3">
+            <select name="testType" class="form-select" id="testType">
+              <option value="g2" selected>G2 Test</option>
+              <option value="g">G Test</option>
+            </select>
+            <label for="testType">Test Type</label>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
           <div class="form-floating mb-3">
             <select class="form-select pePointer" id="bookingDate" name="bookingDate">
               <% if (typeof timeSlots === 'object'){ %>

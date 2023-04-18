@@ -1,5 +1,5 @@
 // Booking Details Data Transfer Object
-module.exports = {
+const bookingDetailsDto = {
   email: "",
   testType: "",
   comments: [],
@@ -7,3 +7,5 @@ module.exports = {
   bookingDate: '',
   car: {make: "", model: "", year: "", plateNo: ""}
 };
+
+module.exports = {bookingDetailsDto};

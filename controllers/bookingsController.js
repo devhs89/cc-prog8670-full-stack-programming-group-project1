@@ -1,5 +1,5 @@
 const bookingDetailsModel = require("../models/bookingDetailsModel");
-const bookingDetailsDto = require("../dtos/bookingDetailsDto");
+const {bookingDetailsDto} = require("../dtos/bookingDetailsDto");
 const accountDto = require("../dtos/accountDto");
 const loginDto = require("../dtos/loginDto");
 const accountModel = require('../models/accountModel');
@@ -40,7 +40,7 @@ const create = async (req, res) => {
           });
         } else {
           // update additional user details if provided by user while making a booking
-          await accountModel.updateOne({email: req.body.email}, {$set: cdf}, null, (fauErr, dc) => {
+          await accountModel.updateOne({email: req.body.email}, {$set: cdf}, null, (fauErr) => {
             if (fauErr?.errors) {
               const fauAllErrs = fauErr.errors;
               let fauAllMsg = [];
@@ -115,7 +115,7 @@ const update = async (req, res) => {
       make: req.body.make, model: req.body.model, year: req.body.year, plateNo: req.body.plateNo
     }
   };
-  await bookingDetailsModel.findByIdAndUpdate(id, {$set: newBooking}, {new: true}, (err, doc) => {
+  await bookingDetailsModel.findByIdAndUpdate(id, {$set: newBooking}, {new: true}, () => {
     res.redirect('/g-test');
   }).clone();
 };

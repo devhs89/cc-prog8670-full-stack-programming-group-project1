@@ -9,8 +9,10 @@
   <div class="container d-flex flex-column justify-content-center align-items-center py-5">
     <div class="row align-self-start text-start mb-3">
       <div class="col-12">
-        <h3 class="text-light">Appointments</h3>
-        <p class="text-secondary">Choose all available appointment time slots below</p>
+        <h3 class="text-light text-capitalize"><%= currentView ? `class ${currentView} ` : 'All '; %>Appointments</h3>
+        <p class="text-secondary">Below are
+          <%= currentView && currentView !== 'all' ? `the class ${currentView.toUpperCase()} ` : 'all the'; %>
+          test appointments</p>
       </div>
     </div>
     <% if (typeof formErrors === 'object' && formErrors.length > 0) { %>
@@ -77,24 +79,25 @@
                           </thead>
                           <tbody>
                           <tr>
-                            <td>
+                            <td class="w-75">
                               <div class="row">
-                                <div class="col-12">
-                                  <% bo.comments.forEach(c=>{ %>
-                                    <ul class="m-0 p-0">
-                                      <li><%= c %></li>
-                                    </ul>
-                                  <% }) %>
-                                </div>
-                                <div class="col-12">
+                                <div class="col-12 col-lg-6 mb-3">
                                   <div class="d-flex justify-content-start align-items-start">
                                     <div class="form-floating flex-grow-1">
                                       <input type="text" class="form-control" id="commentInput"
-                                             name="commentInput<%= dex.toString() %>"
+                                             name="commentInput"
                                              placeholder="Add Comment">
                                       <label for="commentInput">Add Comment</label>
                                     </div>
                                   </div>
+                                </div>
+                                <div class="col-12 col-lg-6 mt-1 mb-3">
+                                  <% bo.comments.forEach(c=>{ %>
+                                    <div class="row">
+                                      <div class="col-auto"><i class="fa-solid fa-comments text-info"></i></div>
+                                      <div class="col-auto"><%= c %></div>
+                                    </div>
+                                  <% }) %>
                                 </div>
                               </div>
                             </td>
@@ -102,11 +105,8 @@
                               <div class="row">
                                 <div class="col-12">
                                   <div class="form-check form-switch">
-                                    <input type="checkbox" class="form-check-input"
-                                           name="passCheck<%= dex.toString() %>"
-                                           id="passCheck" <%= bo.passed ? 'checked' : '' %> />
-                                    <label class="form-check-label"
-                                           for="passCheck"><%= bo.passed ? 'Yes' : 'No' %></label>
+                                    <input type="checkbox" class="form-check-input" name="passCheck"
+                                           id="passCheck" <%= bo.passed ? 'checked' : '' %> aria-label="..." />
                                   </div>
                                 </div>
                               </div>

@@ -3,20 +3,15 @@ const errMsg = require('../constants/errorMessage');
 const customValidator = require("../helpers/validators");
 const Schema = mongoose.Schema;
 
-// Comments Model
-const commentsSchema = new Schema({
-  comment: {type: String}
-});
-
 // AppUser Model
 const bookingDetailsSchema = new Schema({
   email: {
     type: String, required: true, validate: {validator: customValidator.emailValidator, message: errMsg.invalidEmail}
   },
   testType: {type: String, required: true},
-  comments: {type: [commentsSchema]},
-  passed: {type: Boolean, required: true},
+  passed: {type: Boolean, required: true, default: false},
   bookingDate: {type: String, required: true},
+  comments: {type: []},
   car: {
     make: {type: String, required: true},
     model: {type: String, required: true},
