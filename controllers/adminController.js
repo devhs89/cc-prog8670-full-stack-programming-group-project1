@@ -51,7 +51,6 @@ const saveAll = (req, res) => {
 };
 
 const passed = async (req, res) => {
-  console.log(req.body);
   await bookingDetailsModel.find({passed: true}, {
     email: true, testType: true, comments: true, passed: true
   }, (apfErr, apfRes) => {
