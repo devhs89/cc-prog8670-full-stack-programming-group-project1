@@ -1,6 +1,7 @@
 window.onload = async function () {
   const licenseOrderTbodyEle = document.querySelector('#licenseOrderTbody');
 
+  // Get all passed drivers
   const res = await fetch('/licenses/passed', {
     method: 'POST',
   });
@@ -14,6 +15,7 @@ window.onload = async function () {
     licenseOrderTbodyEle.innerHTML = `<tr><td>${dex + 1}</td><td>${dr.email}</td><td>${dr.testType.toUpperCase()} Class</td><td>${commentsMarkup}</td><td>${dr.passed ? 'Yes' : 'No'}</td><td><button id="orderBtn" class="btn btn-lg btn-warning" type="button">Order</button></td></tr>`;
   });
 
+  // Disable order button when clicked to order license
   const orderBtnEle = document.querySelector('#orderBtn');
   orderBtnEle.addEventListener('click', (evt) => {
     evt.preventDefault();

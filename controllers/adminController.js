@@ -4,6 +4,7 @@ const accountDto = require("../dtos/accountDto");
 const errMsg = require("../constants/errorMessage");
 const bookingDetailsModel = require("../models/bookingDetailsModel");
 
+// Save all appointments action
 const saveAll = (req, res) => {
   const payload = [];
 
@@ -50,6 +51,7 @@ const saveAll = (req, res) => {
   });
 };
 
+// Get all passed drivers action
 const passed = async (req, res) => {
   await bookingDetailsModel.find({passed: true}, {
     email: true, testType: true, comments: true, passed: true

@@ -38,6 +38,7 @@ async function findBookings(res, filter = {}) {
   }).clone();
 }
 
+// Show test bookings action
 const show = async (req, res) => {
   // set filter according to selected option
   let filter;
@@ -54,6 +55,7 @@ const show = async (req, res) => {
   await findBookings(res, filter);
 };
 
+// Update booking with comments and/or test outcome action
 const update = async (req, res) => {
   const docId = req.body?.updateBtn;
   if (!docId) {
